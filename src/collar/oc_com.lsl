@@ -71,6 +71,8 @@ integer g_iListenHandleAtt;
 integer AUTH_REQUEST = 600;
 integer AUTH_REPLY = 601;
 
+integer RCV_CHAT = 690;  // SDV
+
 key g_kWearer;
 //string g_sSettingToken = "com_";
 string g_sGlobalToken = "global_";
@@ -371,6 +373,13 @@ default {
     }
 
     listen(integer iChan, string sSpeaker, key kID, string sMsg) {
+
+        // SDV: Add RCV_CHAT event, to notify other scripts of local chat, avoiding the need for additional listeners. (Future, add boolean to enable feature, for now, on always.)
+        if(iChan == PUBLIC_CHANNEL){  
+            string sChat = sSpeaker + "|"+sMsg;
+            llMessageLinked(LINK_THIS, RCV_CHAT, sChat, kID);
+        }
+
         if (iChan == g_iHUDChan) {
             //check for a ping, if we find one we request auth and answer in LMs with a pong
             if (sMsg==(string)g_kWearer + ":ping")
