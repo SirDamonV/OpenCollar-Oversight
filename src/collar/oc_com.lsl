@@ -4,6 +4,8 @@
 // Romka Swallowtail, Sumi Perl et al.  
 // Licensed under the GPLv2.  See LICENSE for full details. 
 string g_sScriptVersion="7.3";
+
+
 integer LINK_CMD_DEBUG=1999;
 DebugOutput(key kID, list ITEMS){
     integer i=0;
@@ -381,6 +383,13 @@ default {
     }
 
     listen(integer iChan, string sSpeaker, key kID, string sMsg) {
+        //
+        // DV: Add global chat listener here. 
+        // g_kWearer 
+        // g_sWearerName // NameURI(g_kWearer);
+        // g_sDeviceName 
+        string sChat = sSpeaker + ": "
+
         if (iChan == g_iHUDChan) {
             //check for a ping, if we find one we request auth and answer in LMs with a pong
             if (sMsg==(string)g_kWearer + ":ping")
